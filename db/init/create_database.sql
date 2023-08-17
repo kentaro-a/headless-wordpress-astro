@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS wordpress
+    CHARACTER SET utf8mb4 
+;

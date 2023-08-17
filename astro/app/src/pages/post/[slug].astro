@@ -1,0 +1,26 @@
+---
+export async function getStaticPaths() {
+    const response = await fetch('http://wordpress:80/wp-json/wp/v2/posts?_embed');
+    const data = await response.json();
+
+    return data.map(v => {
+        return {
+            params: {
+                slug: v.slug,
+            },
+            props: {
+                data: v,
+            }
+        }
+    })
+}
+
+import Layout from '../../layouts/Layout.astro';
+import Post from '../../components/Post.astro';
+const { slug } = Astro.params;
+const { data } = Astro.props;
+---
+
+<Layout title="Post">
+    <Post data={data} />
+</Layout>

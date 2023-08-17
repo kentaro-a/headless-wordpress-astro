@@ -1,0 +1,27 @@
+--- 
+import 'bootstrap/dist/css/bootstrap.css'
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description">
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<div class="wrapper">
+			<slot />
+		</div>
+	</body>
+</html>
+<style is:global>
+.wrapper {
+	padding: 30px;
+}	
+</style>

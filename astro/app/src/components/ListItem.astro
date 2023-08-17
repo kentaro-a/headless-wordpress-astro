@@ -1,0 +1,34 @@
+---
+import moment from "moment";
+
+
+const { slug, title, date } = Astro.props;
+---
+
+<li class="list-item">
+	<div>
+		<span class="meta">{moment(date).format("YYYY-MM-DD HH:mm")}</span>
+	</div>
+	<div>
+		<a href={"/post/" + slug} class="title">
+			{title}
+		</a>
+	</div>
+</li>
+<style>
+	.list-item {
+		list-style: none;
+	}
+	.list-item {
+		border-bottom: 1px solid #efefef;	
+		padding: 1em;
+	}
+	.list-item .title {
+		font-size: 1.3em;
+		font-weight: bold; 
+		text-decoration: none;
+	}
+	.list-item .meta {
+		font-size: 0.8em;
+	}
+</style>

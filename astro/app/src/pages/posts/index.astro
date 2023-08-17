@@ -1,0 +1,43 @@
+---
+
+
+
+import ListItem from '../../components/ListItem.astro';
+import Layout from '../../layouts/Layout.astro';
+
+const endpoint = 'http://wordpress:80/wp-json/wp/v2/posts?per_page=3';
+const response = await fetch(endpoint);
+const data = await response.json();
+---
+
+
+<Layout title="Welcome to Astro.">
+	<main>
+			{data.length > 0
+				? <>
+					<ul class="list">
+						{data.map(v => (
+							<ListItem 
+								title={v.title.rendered} 
+								slug={v.slug} 
+								date={v.date} 
+							/>
+						))}
+					</ul>
+
+					<div>
+						<a href="/posts/1">Go to posts</a>
+					</div>
+				</>
+				: <>
+					No posts...
+				</>
+		
+			}
+	</main>	
+</Layout>
+
+
+<style>
+	
+</style>

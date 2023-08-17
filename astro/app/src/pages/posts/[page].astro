@@ -1,0 +1,49 @@
+---
+
+export async function getStaticPaths({paginate}) {
+	const endpoint = 'http://wordpress:80/wp-json/wp/v2/posts';
+	const response = await fetch(endpoint);
+	const data = await response.json();
+	return paginate(data, { pageSize: 2 });	
+}
+
+import ListItem from '../../components/ListItem.astro';
+import Layout from '../../layouts/Layout.astro';
+
+const { page } = Astro.props;
+const pagination = [];
+for (let i=1;i<=page.lastPage;i++) {
+	pagination.push(i)		
+}
+---
+
+
+<Layout title="Posts">
+	<main>
+		<nav>
+  			<ul class="pagination">
+    			
+				{page.url.prev ? <li class="page-item"><a class="page-link" href={page.url.prev}><<</a></li> : null}
+				{pagination.map(p => (
+    				<li class="page-item"><a class={"page-link " + (p == page.currentPage ? "active" : "")} href={"/posts/" + p}>{p}</a></li>
+				))}
+				{page.url.next ? <li class="page-item"><a class="page-link" href={page.url.next}>>></a></li> : null}
+  			</ul>
+		</nav>
+
+		<ul class="list">
+			{page.data.map(v => (
+				<ListItem 
+					title={v.title.rendered} 
+					slug={v.slug} 
+					date={v.date} 
+				/>
+			))}
+		</ul>
+	</main>	
+</Layout>
+
+
+<style>
+	
+</style>

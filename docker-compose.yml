@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:8
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d
+    restart: always
+    environment:
+      MYSQL_USER: app 
+      MYSQL_PASSWORD: App1234567890_+?-
+      MYSQL_ROOT_PASSWORD: Root1234567890_+?-
+      TZ: Asia/Tokyo
+
+  phpmyadmin:
+    image: phpmyadmin:5-apache
+    restart: always
+    ports:
+      - 10000:80
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306 
+      PMA_USER: root 
+      PMA_PASSWORD: Root1234567890_+?-
+
+  wordpress:
+    image: wordpress:6.3.0-apache
+    ports:
+      - 10001:80
+    depends_on:
+      - db
+    volumes:
+      - ./wordpress:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: root 
+      WORDPRESS_DB_PASSWORD: Root1234567890_+?- 
+      WORDPRESS_DB_NAME: wordpress 
+
+  astro:
+    build: ./astro
+    restart: always
+    tty: true
+    ports:
+      - 10002:80
+    depends_on:
+      - wordpress
+    volumes:
+      - ./astro/app:/app
+
+volumes:
+  db_data:

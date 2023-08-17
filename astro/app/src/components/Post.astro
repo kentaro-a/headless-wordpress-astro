@@ -1,0 +1,54 @@
+---
+import 'bootstrap/dist/css/bootstrap.css'
+import moment from "moment";
+
+
+const { data } = Astro.props;
+---
+
+
+<main class="post">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="title">{data.title.rendered}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+		        <span class="meta">Created by {data._embedded.author[0].name}</span>
+		        <span class="meta">Created at {moment(data.date).format("YYYY-MM-DD HH:mm")}</span>
+		        <span class="meta">Modified at {moment(data.modified).format("YYYY-MM-DD HH:mm")}</span>
+            </div>
+        </div>
+
+		<div class="row" style="margin-top:1em;">
+            <div class="col">
+				<div class="content">
+					<div set:html={data.content.rendered}/>
+				</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+	.post {
+		padding: 1em;
+	}
+	.post .title {
+		font-size: 1.3em;
+		font-weight: bold; 
+		text-decoration: none;
+	}
+	.post .content {
+		padding:1em;
+		border: 1px solid #efefef;
+	}
+	.post .meta {
+		font-size: 0.8em;
+	}
+    .post .meta:not(:first-child) {
+		margin-left: 1em;
+	}
+</style>
